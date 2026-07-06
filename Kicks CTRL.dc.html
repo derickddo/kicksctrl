@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;display=swap" rel="stylesheet">
+  <title>Kicks CTRL — Footwear Recovery Infrastructure</title>
+  <meta name="description" content="Kicks CTRL collects post-consumer footwear, separates it into clean material streams, and returns it to industry — closing the loop the footwear industry never built.">
+  <link rel="icon" type="image/png" href="assets/mark.png">
+  <style>
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;scroll-behavior:smooth;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:#F4EFE4;color:#26241D;-webkit-font-smoothing:antialiased;}
+    button{font-family:inherit;cursor:pointer;}
+    input,textarea,select{font-family:inherit;}
+    a{color:inherit;text-decoration:none;}
+    ::selection{background:#C15A2B;color:#fff;}
+    ::placeholder{color:#9a9284;}
+    section[id]{scroll-margin-top:74px;}
+    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #C15A2B;outline-offset:2px;}
+    @media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+  </style>
+</helmet>
+<div style="min-height:100vh;">
+
+  <header style="position:sticky;top:0;z-index:60;background:#111111;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1200px;margin:0 auto;padding:0 28px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+      <a href="#top" onClick="{{ closeMenu }}" style="display:flex;align-items:center;cursor:pointer;">
+        <img src="assets/logo-dark.png" alt="Kicks CTRL" style="height: 53px; width: 143px; display: block; border-radius: 5px">
+      </a>
+      <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:4px;">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+            <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="padding:9px 13px;font-family:'Chakra Petch';font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:{{ item.color }};border-bottom:{{ item.bd }};cursor:pointer;transition:color 0.2s;" style-hover="color:#fff;">{{ item.label }}</a>
+          </sc-for>
+        </nav>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+          <a href="#contact" onClick="{{ closeMenu }}" style="background:#C15A2B;color:#fff;padding:11px 18px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Chakra Petch';cursor:pointer;display:inline-block;transition:background 0.25s,transform 0.25s;" style-hover="background:#D06B34;transform:translateY(-2px);">Get in touch</a>
+        </sc-if>
+        <sc-if value="{{ showBurger }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" style="background:none;border:1px solid rgba(255,255,255,0.2);color:#fff;width:40px;height:40px;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;">{{ burgerIcon }}</button>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#111111;border-top:1px solid rgba(255,255,255,0.08);padding:8px 28px 22px;display:flex;flex-direction:column;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+          <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="border-bottom:1px solid rgba(255,255,255,0.06);text-align:left;padding:15px 0;font-size:15px;font-weight:500;color:{{ item.color }};display:block;cursor:pointer;">{{ item.label }}</a>
+        </sc-for>
+        <a href="#contact" onClick="{{ closeMenu }}" style="margin-top:18px;background:#C15A2B;color:#fff;padding:15px;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Chakra Petch';display:block;text-align:center;cursor:pointer;">Get in touch</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO: the problem + what we do ===== -->
+    <section id="top" style="position:relative;background:#111111;color:#fff;min-height:90vh;display:flex;align-items:center;overflow:hidden;">
+      <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 48%, rgba(193,90,43,0.14), transparent 60%);pointer-events:none;"></div>
+      <div style="position:relative;max-width:1200px;margin:0 auto;padding:0 28px;width:100%;pointer-events:none;">
+        <div style="max-width:820px;">
+          <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#D98A5A;margin-bottom:26px;font-family:'Chakra Petch';">Footwear recovery infrastructure</div>
+          <h1 style="font-family:'Chakra Petch';font-weight:700;font-size:clamp(36px,5.4vw,76px);line-height:1.04;letter-spacing:-0.5px;text-transform:uppercase;margin:0 0 28px;">24 billion pairs made a year.<br><span style="color:#D98A5A;">Almost none get recovered.</span></h1>
+          <p style="font-size:clamp(17px,2vw,22px);line-height:1.5;color:#cfc8ba;max-width:560px;margin:0 0 38px;">We collect post-consumer footwear, separate it into clean material streams, and return it to industry — closing the loop.</p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;">
+            <a href="#do" style="pointer-events:auto;display:inline-block;background:#C15A2B;color:#fff;padding:16px 28px;font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;font-family:'Chakra Petch';cursor:pointer;transition:background 0.25s,transform 0.25s;" style-hover="background:#D06B34;transform:translateY(-2px);">What we do &nbsp;→</a>
+            <a href="#contact" style="pointer-events:auto;display:inline-block;background:none;color:#fff;border:1px solid rgba(255,255,255,0.28);padding:16px 28px;font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;font-family:'Chakra Petch';cursor:pointer;transition:border-color 0.25s,transform 0.25s;" style-hover="border-color:#fff;transform:translateY(-2px);">Get in touch</a>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;left:30px;bottom:24px;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;">
+        <span style="font-family:'Chakra Petch';font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#8a8272;writing-mode:vertical-rl;">Scroll</span>
+        <span style="display:block;width:1px;height:42px;background:linear-gradient(to bottom,#C15A2B,transparent);"></span>
+      </div>
+    </section>
+
+    <div aria-hidden="true" style="background:#C15A2B;color:#111111;overflow:hidden;display:flex;padding:12px 0;">
+      <div style="display:flex;flex-shrink:0;width:max-content;animation:marquee 32s linear infinite;">
+        <span style="font-family:'Chakra Petch';font-weight:600;font-size:14px;letter-spacing:3px;text-transform:uppercase;white-space:nowrap;padding-right:48px;">Collect → Recover → Return&nbsp;&nbsp;·&nbsp;&nbsp;Shoe-to-shoe circularity&nbsp;&nbsp;·&nbsp;&nbsp;Collect → Recover → Return&nbsp;&nbsp;·&nbsp;&nbsp;Shoe-to-shoe circularity&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        <span style="font-family:'Chakra Petch';font-weight:600;font-size:14px;letter-spacing:3px;text-transform:uppercase;white-space:nowrap;padding-right:48px;">Collect → Recover → Return&nbsp;&nbsp;·&nbsp;&nbsp;Shoe-to-shoe circularity&nbsp;&nbsp;·&nbsp;&nbsp;Collect → Recover → Return&nbsp;&nbsp;·&nbsp;&nbsp;Shoe-to-shoe circularity&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ===== WHAT WE DO ===== -->
+    <section id="do" style="background:#F4EFE4;padding:clamp(76px,9vw,120px) 0;">
+      <div style="max-width:1200px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#C15A2B;margin-bottom:18px;font-family:'Chakra Petch';">What we do</div>
+        <h2 data-reveal="" style="font-family:'Chakra Petch';font-weight:700;font-size:clamp(30px,4.2vw,54px);line-height:1.06;letter-spacing:-0.3px;text-transform:uppercase;margin:0 0 20px;max-width:840px;">We built the recovery chain footwear was missing</h2>
+        <p data-reveal="" style="font-size:clamp(17px,1.9vw,21px);line-height:1.6;color:#5f5849;max-width:620px;margin:0 0 60px;">A shoe is rubber, foam, textile, and plastic bonded together — impossible to recycle through ordinary single-stream systems. We separate it, and route each material back into use.</p>
+
+        <div data-reveal="" data-reveal-delay="100" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:14px;">
+          <div style="flex:1 1 210px;background:#fff;border:1px solid #E7DFCD;border-top:3px solid #C15A2B;padding:38px 32px;display:flex;flex-direction:column;transition:transform 0.35s cubic-bezier(.22,.61,.36,1),box-shadow 0.35s;" style-hover="transform:translateY(-6px);box-shadow:0 18px 40px rgba(38,36,29,0.12);">
+            <div style="font-family:'Chakra Petch';font-size:40px;font-weight:700;color:#C15A2B;line-height:1;letter-spacing:-1px;">01</div>
+            <h3 style="font-family:'Chakra Petch';font-weight:600;font-size:25px;letter-spacing:-0.2px;margin:20px 0 12px;">Collect</h3>
+            <p style="font-size:16px;line-height:1.65;color:#5f5849;margin:0;">We aggregate post-consumer footwear from brand take-back, retail, and municipal waste streams.</p>
+          </div>
+          <div style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#C15A2B;font-family:'Chakra Petch';font-size:26px;font-weight:700;">→</div>
+          <div style="flex:1 1 210px;background:#fff;border:1px solid #E7DFCD;border-top:3px solid #2F6E64;padding:38px 32px;display:flex;flex-direction:column;transition:transform 0.35s cubic-bezier(.22,.61,.36,1),box-shadow 0.35s;" style-hover="transform:translateY(-6px);box-shadow:0 18px 40px rgba(38,36,29,0.12);">
+            <div style="font-family:'Chakra Petch';font-size:40px;font-weight:700;color:#2F6E64;line-height:1;letter-spacing:-1px;">02</div>
+            <h3 style="font-family:'Chakra Petch';font-weight:600;font-size:25px;letter-spacing:-0.2px;margin:20px 0 12px;">Recover</h3>
+            <p style="font-size:16px;line-height:1.65;color:#5f5849;margin:0;">We separate the bonded shoe into clean, single-material fractions — then clean, shred, and grade them to spec.</p>
+          </div>
+          <div style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#2F6E64;font-family:'Chakra Petch';font-size:26px;font-weight:700;">→</div>
+          <div style="flex:1 1 210px;background:#fff;border:1px solid #E7DFCD;border-top:3px solid #8A8340;padding:38px 32px;display:flex;flex-direction:column;transition:transform 0.35s cubic-bezier(.22,.61,.36,1),box-shadow 0.35s;" style-hover="transform:translateY(-6px);box-shadow:0 18px 40px rgba(38,36,29,0.12);">
+            <div style="font-family:'Chakra Petch';font-size:40px;font-weight:700;color:#8A8340;line-height:1;letter-spacing:-1px;">03</div>
+            <h3 style="font-family:'Chakra Petch';font-weight:600;font-size:25px;letter-spacing:-0.2px;margin:20px 0 12px;">Return</h3>
+            <p style="font-size:16px;line-height:1.65;color:#5f5849;margin:0;">We sell graded feedstock back into manufacturing under recurring supply agreements.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" style="background:#111111;color:#fff;padding:clamp(76px,9vw,120px) 0;">
+      <div style="max-width:1200px;margin:0 auto;padding:0 28px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:64px;align-items:start;">
+          <div>
+            <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#D98A5A;margin-bottom:18px;font-family:'Chakra Petch';">About us</div>
+            <h2 data-reveal="" style="font-family:'Chakra Petch';font-weight:700;font-size:clamp(30px,4.2vw,54px);line-height:1.06;letter-spacing:-0.3px;text-transform:uppercase;margin:0;">Building the missing layer of the footwear supply chain</h2>
+          </div>
+          <div data-reveal="" data-reveal-delay="120" style="padding-top:6px;">
+            <p style="font-size:17px;line-height:1.7;color:#c8c1b3;margin:0 0 18px;">Footwear poses a huge, overlooked waste challenge. The staggering volumes produced each year — with less than 5% ever recycled — point to a looming problem hiding in plain sight.</p>
+            <p style="font-size:17px;line-height:1.7;color:#c8c1b3;margin:0 0 18px;">We approach it from a design perspective: closing the loop from where the most research and technology already exists to the end of the waste stream, where almost none does. We believe this underresearched problem space is where the future will be decided.</p>
+            <p style="font-size:17px;line-height:1.7;color:#c8c1b3;margin:0;">True shoe-to-shoe circularity is only possible through perseverance, resilience, and creativity — and this venture is currently part of <span style="color:#fff;font-weight:600;">Carbon13 Cohort 6</span>.</p>
+          </div>
+        </div>
+
+        <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);margin-top:64px;">
+          <div style="background:#111111;padding:30px;transition:background 0.3s;" style-hover="background:#181815;"><div style="width:26px;height:4px;background:#C15A2B;margin-bottom:16px;"></div><h4 style="font-family:'Chakra Petch';font-weight:600;font-size:19px;margin:0 0 8px;">Infrastructure first</h4><p style="font-size:15px;line-height:1.6;color:#a39c8c;margin:0;">We build physical capacity, not campaigns. Throughput is the product.</p></div>
+          <div style="background:#111111;padding:30px;transition:background 0.3s;" style-hover="background:#181815;"><div style="width:26px;height:4px;background:#2F6E64;margin-bottom:16px;"></div><h4 style="font-family:'Chakra Petch';font-weight:600;font-size:19px;margin:0 0 8px;">Material purity</h4><p style="font-size:15px;line-height:1.6;color:#a39c8c;margin:0;">Output is graded to spec, so it competes with virgin feedstock — not just diverts it.</p></div>
+          <div style="background:#111111;padding:30px;transition:background 0.3s;" style-hover="background:#181815;"><div style="width:26px;height:4px;background:#8A8340;margin-bottom:16px;"></div><h4 style="font-family:'Chakra Petch';font-weight:600;font-size:19px;margin:0 0 8px;">Auditable chain</h4><p style="font-size:15px;line-height:1.6;color:#a39c8c;margin:0;">Every tonne is tracked from intake to offtake for compliance-grade reporting.</p></div>
+          <div style="background:#111111;padding:30px;transition:background 0.3s;" style-hover="background:#181815;"><div style="width:26px;height:4px;background:#3B5768;margin-bottom:16px;"></div><h4 style="font-family:'Chakra Petch';font-weight:600;font-size:19px;margin:0 0 8px;">Modular scale</h4><p style="font-size:15px;line-height:1.6;color:#a39c8c;margin:0;">Facilities replicate as standardized units, so capacity grows predictably.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TEAM ===== -->
+    <section id="team" style="background:#F4EFE4;padding:clamp(76px,9vw,120px) 0;">
+      <div style="max-width:1200px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#C15A2B;margin-bottom:18px;font-family:'Chakra Petch';">Team</div>
+        <h2 data-reveal="" style="font-family:'Chakra Petch';font-weight:700;font-size:clamp(30px,4.2vw,54px);line-height:1.06;letter-spacing:-0.3px;text-transform:uppercase;margin:0 0 20px;max-width:760px;">The people closing the loop</h2>
+        
+
+        <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,300px));gap:28px;">
+          <div style="display: flex; flex-direction: column; width: 314px; height: 377px">
+            <div style="width: 262px; aspect-ratio: 4/5; background: #E4DCC9; overflow: hidden; height: 250px">
+              <img src="assets/ceo.jpg" alt="Gordon Fay" style="width: 295px; height: 224px; object-fit: fill; object-position: 58% 40%; transform: scale(1.3); transform-origin: 58% 46%; display: block; filter: grayscale(1) contrast(1.05) brightness(1.02); transition: filter 0.6s ease" style-hover="filter:grayscale(0) contrast(1.02) brightness(1);">
+            </div>
+            <div style="width:34px;height:4px;background:#C15A2B;margin:20px 0 12px;"></div>
+            <h3 style="font-family:'Chakra Petch';font-weight:600;font-size:22px;margin:0 0 4px;">Gordon Fay</h3>
+            <div style="font-size:13px;font-weight:600;letter-spacing:0.5px;color:#8a8272;text-transform:uppercase;margin-bottom:16px;">Co-Founder &amp; CEO</div>
+            <a href="https://www.linkedin.com/in/gordonfay/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:#3f3a30;cursor:pointer;width:fit-content;" style-hover="color:#C15A2B;">
+              <span style="width:22px;height:22px;background:#0A66C2;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:'Chakra Petch';font-weight:700;font-size:12px;border-radius:3px;">in</span>
+              Connect on LinkedIn
+            </a>
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div style="width: 235px; aspect-ratio: 4/5; background: #E4DCC9; overflow: hidden; height: 250px">
+              <img src="assets/cto.jpg" alt="Maximilian Mayr" style="width: 256px; height: 320px; object-fit: cover; object-position: 50% 24%; display: block; filter: grayscale(1) contrast(1.05) brightness(1.02); transition: filter 0.6s ease" style-hover="filter:grayscale(0) contrast(1.02) brightness(1);">
+            </div>
+            <div style="width:34px;height:4px;background:#2F6E64;margin:20px 0 12px;"></div>
+            <h3 style="font-family:'Chakra Petch';font-weight:600;font-size:22px;margin:0 0 4px;">Maximilian Mayr</h3>
+            <div style="font-size:13px;font-weight:600;letter-spacing:0.5px;color:#8a8272;text-transform:uppercase;margin-bottom:16px;">Co-Founder &amp; CTO</div>
+            <a href="https://www.linkedin.com/in/maximilian-a-mayr/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:#3f3a30;cursor:pointer;width:fit-content;" style-hover="color:#C15A2B;">
+              <span style="width:22px;height:22px;background:#0A66C2;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:'Chakra Petch';font-weight:700;font-size:12px;border-radius:3px;">in</span>
+              Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" style="background:#111111;color:#fff;border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1200px;margin:0 auto;padding:clamp(76px,9vw,120px) 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:start;">
+        <div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#D98A5A;margin-bottom:18px;font-family:'Chakra Petch';">Contact</div>
+          <h2 data-reveal="" style="font-family:'Chakra Petch';font-weight:700;font-size:clamp(30px,4.2vw,56px);line-height:1.05;letter-spacing:-0.3px;text-transform:uppercase;margin:0 0 22px;">Let's build the recovery layer</h2>
+          <p style="font-size:17px;line-height:1.6;color:#c8c1b3;max-width:440px;margin:0 0 40px;">Capital, supply, or material demand — tell us where you fit. We reply to qualified inquiries within five business days.</p>
+          <div style="border-top:1px solid rgba(255,255,255,0.12);padding-top:28px;display:flex;flex-direction:column;gap:18px;">
+            <div><div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a7365;margin-bottom:6px;font-family:'Chakra Petch';">General</div><div style="font-size:16px;">hello@kicksctrl.com</div></div>
+            <div><div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a7365;margin-bottom:6px;font-family:'Chakra Petch';">Investment</div><div style="font-size:16px;">invest@kicksctrl.com</div></div>
+          </div>
+        </div>
+
+        <div data-reveal="" data-reveal-delay="120" style="background:#1A1A17;border:1px solid rgba(255,255,255,0.12);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.4);">
+          <div style="display:flex;align-items:center;gap:9px;background:#0a0a0a;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,0.08);">
+            <span style="width:11px;height:11px;border-radius:50%;background:#ff5f57;display:block;"></span>
+            <span style="width:11px;height:11px;border-radius:50%;background:#febc2e;display:block;"></span>
+            <span style="width:11px;height:11px;border-radius:50%;background:#28c840;display:block;"></span>
+            <span style="margin-left:8px;font-family:'Chakra Petch';font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#8a8272;">New message</span>
+          </div>
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:56px 24px;">
+              <div style="width:52px;height:52px;background:#C15A2B;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:26px;">✓</div>
+              <h3 style="font-family:'Chakra Petch';font-weight:600;font-size:28px;margin:0 0 12px;">Message on its way</h3>
+              <p style="font-size:15px;color:#c8c1b3;line-height:1.6;margin:0 auto;max-width:320px;">Your email to <span style="color:#D98A5A;">hello@kicksctrl.com</span> should be opening in your mail app. We reply to qualified inquiries within five business days.</p>
+              <button onClick="{{ resetForm }}" style="margin-top:24px;background:none;border:1px solid rgba(255,255,255,0.22);color:#fff;padding:12px 22px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Chakra Petch';">Write another</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onSubmit }}">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.07);">
+                <span style="font-size:12px;color:#7a7365;font-family:'Chakra Petch';letter-spacing:1px;width:56px;flex-shrink:0;">To</span>
+                <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(193,90,43,0.16);border:1px solid rgba(193,90,43,0.4);color:#E8B79A;font-size:13px;padding:5px 11px;border-radius:100px;">
+                  <span style="width:6px;height:6px;border-radius:50%;background:#C15A2B;display:block;"></span>hello@kicksctrl.com
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:2px 20px;border-bottom:1px solid rgba(255,255,255,0.07);">
+                <span style="font-size:12px;color:#7a7365;font-family:'Chakra Petch';letter-spacing:1px;width:56px;flex-shrink:0;">From</span>
+                <input value="{{ fName }}" onChange="{{ onName }}" placeholder="Your name" style="flex:1;min-width:60px;background:none;border:none;color:#fff;padding:13px 0;font-size:15px;outline:none;">
+                <input value="{{ fEmail }}" onChange="{{ onEmail }}" type="email" placeholder="you@company.com" style="flex:1;min-width:60px;background:none;border:none;color:#cfc8ba;padding:13px 0;font-size:15px;outline:none;text-align:right;">
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:2px 20px;border-bottom:1px solid rgba(255,255,255,0.07);">
+                <span style="font-size:12px;color:#7a7365;font-family:'Chakra Petch';letter-spacing:1px;width:56px;flex-shrink:0;">Subject</span>
+                <select value="{{ fRole }}" onChange="{{ onRole }}" style="flex:1;background:none;border:none;color:#fff;padding:13px 0;font-size:15px;outline:none;cursor:pointer;">
+                  <option value="" style="background:#1A1A17;">Inquiry — select who you are</option>
+                  <option value="Investor" style="background:#1A1A17;">Investor</option>
+                  <option value="Brand / Retailer" style="background:#1A1A17;">Brand / Retailer</option>
+                  <option value="Municipality" style="background:#1A1A17;">Municipality</option>
+                  <option value="Material buyer" style="background:#1A1A17;">Material buyer</option>
+                  <option value="Other" style="background:#1A1A17;">Other</option>
+                </select>
+              </div>
+              <div style="padding:16px 20px;">
+                <textarea value="{{ fMessage }}" onChange="{{ onMessage }}" rows="5" placeholder="Write your message to the team…" style="width:100%;background:none;border:none;color:#fff;font-size:15px;line-height:1.65;outline:none;resize:vertical;font-family:inherit;"></textarea>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 20px;border-top:1px solid rgba(255,255,255,0.07);">
+                <span style="font-size:12px;color:#6f6a5d;">Sends via your mail app</span>
+                <button type="submit" style="display:inline-flex;align-items:center;gap:10px;background:#C15A2B;color:#fff;border:none;padding:12px 26px;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Chakra Petch';transition:background 0.25s,transform 0.25s;" style-hover="background:#D06B34;transform:translateY(-2px);">Send&nbsp;✈</button>
+              </div>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:#111111;color:#fff;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(44px,6vw,64px) 28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;align-items:flex-start;">
+      <div style="max-width:320px;">
+        <img src="assets/logo-dark.png" alt="Kicks CTRL" style="height:40px;width:auto;display:block;margin-bottom:18px;">
+        <p style="font-size:14px;line-height:1.6;color:#8a8272;margin:0;">End-of-life footwear recovery infrastructure. We collect, separate, and return post-consumer footwear as clean material streams.</p>
+      </div>
+      <div style="display:flex;gap:48px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a7365;margin-bottom:16px;font-family:'Chakra Petch';">Navigate</div>
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+              <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="font-size:14px;color:#b9b3a5;cursor:pointer;" style-hover="color:#fff;">{{ item.label }}</a>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a7365;margin-bottom:16px;font-family:'Chakra Petch';">Contact</div>
+          <div style="display:flex;flex-direction:column;gap:11px;font-size:14px;color:#b9b3a5;">
+            <span>hello@kicksctrl.com</span>
+            <span>invest@kicksctrl.com</span>
+          </div>
+        </div>
+        <div style="min-width:172px;">
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a7365;margin-bottom:14px;font-family:'Chakra Petch';">Partner</div>
+          <div style="margin-bottom:22px;">
+            <span style="display:inline-flex;background:#fff;padding:7px 11px;border-radius:6px;">
+              <img src="assets/carbon13.webp" alt="Carbon13 — Cohort 6" style="height:22px;width:auto;display:block;">
+            </span>
+          </div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a7365;margin-bottom:12px;font-family:'Chakra Petch';">UN Global Goals</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;max-width:210px;">
+            <img src="assets/sdg9.png" alt="SDG 9 — Industry, Innovation and Infrastructure" style="width:44px;height:44px;display:block;">
+            <img src="assets/sdg12.png" alt="SDG 12 — Responsible Consumption and Production" style="width:44px;height:44px;display:block;">
+            <img src="assets/sdg13.png" alt="SDG 13 — Climate Action" style="width:44px;height:44px;display:block;">
+            <img src="assets/sdg17.avif" alt="SDG 17 — Partnerships for the Goals" style="width:44px;height:44px;display:block;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1200px;margin:0 auto;padding:22px 28px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:#7a7365;letter-spacing:0.5px;">
+        <span>© 2026 Kicks CTRL. All rights reserved.</span>
+        <div style="display:flex;gap:24px;">
+          <a href="Impressum.dc.html" style="color:#7a7365;" style-hover="color:#fff;">Impressum</a>
+          <a href="Disclaimer.dc.html" style="color:#7a7365;" style-hover="color:#fff;">Disclaimer</a>
+        </div>
+      </div>
+    </div>
+    </footer></div>
+  
+
+
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#111111"></rect>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#C15A2B" stroke-width="3"></circle>
+    <path d="M50 20 A30 30 0 0 1 80 50 L50 50 Z" fill="#C15A2B" opacity="0.9"></path>
+    <path d="M80 50 A30 30 0 0 1 50 80 L50 50 Z" fill="#2F6E64" opacity="0.9"></path>
+    <path d="M50 80 A30 30 0 0 1 20 50 L50 50 Z" fill="#8A8340" opacity="0.9"></path>
+    <path d="M20 50 A30 30 0 0 1 50 20 L50 50 Z" fill="#3B5768" opacity="0.9"></path>
+    <circle cx="50" cy="50" r="9" fill="#111111"></circle>
+  </svg>
+</template>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;particleDensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = {
+    winW: (typeof window !== 'undefined' ? window.innerWidth : 1200),
+    menuOpen: false,
+    active: 'top',
+    submitted: false,
+    form: { name: '', email: '', role: '', company: '', message: '' }
+  };
+
+  constructor(props) {
+    super(props);
+    this.canvasRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this._onWinResize = () => {
+      this.setState({ winW: window.innerWidth });
+      if (this.onResize) this.onResize();
+    };
+    window.addEventListener('resize', this._onWinResize);
+    this._onScroll = () => {
+      if (this._st) return;
+      this._st = requestAnimationFrame(() => { this._st = null; this.updateActive(); });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this.startAnim();
+    this.setupReveals();
+  }
+
+  setupReveals() {
+    if (this.props.reduceMotion || !('IntersectionObserver' in window)) return;
+    if (this._io) return;
+    const els = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+    if (!els.length) return;
+    els.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(26px)';
+      el.style.transition = 'opacity 0.7s cubic-bezier(.22,.61,.36,1), transform 0.7s cubic-bezier(.22,.61,.36,1)';
+      const d = el.getAttribute('data-reveal-delay');
+      if (d) el.style.transitionDelay = d + 'ms';
+    });
+    this._io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.style.opacity = '1';
+          en.target.style.transform = 'none';
+          this._io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => this._io.observe(el));
+  }
+  componentDidUpdate() {
+    if (!this._animOn) this.startAnim();
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this._animOn = false;
+    window.removeEventListener('resize', this._onWinResize);
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._io) { this._io.disconnect(); this._io = null; }
+  }
+
+  updateActive() {
+    const ids = ['contact', 'team', 'about', 'do', 'top'];
+    const y = window.pageYOffset + 100;
+    let act = 'top';
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.pageYOffset;
+        if (top <= y) { act = id; break; }
+      }
+    }
+    if (act !== this.state.active) this.setState({ active: act });
+  }
+
+  startAnim() {
+    if (this._animOn) return;
+    this._animOn = true;
+    const ref = this.canvasRef;
+    let W = 0, H = 0, dpr = 1;
+    let cx = 0, cy = 0, R = 0, globeAlpha = 1;
+    let rotY = 0;
+    const tilt = -0.42;
+    let pulse = 0;
+    const D2R = Math.PI / 180;
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const ease = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    // waste comes in as the mixed material-wheel palette
+    const WASTE = ['rgba(138,131,64,', 'rgba(59,87,104,', 'rgba(47,110,100,', 'rgba(122,78,51,', 'rgba(184,168,138,'];
+
+    const DOTS = [];
+    const N = 900;
+    const ga = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i / (N - 1)) * 2;
+      const rr = Math.sqrt(1 - y * y);
+      const th = ga * i;
+      DOTS.push([Math.cos(th) * rr, y, Math.sin(th) * rr]);
+    }
+
+    const ll = (lat, lon) => {
+      const a = lat * D2R, o = lon * D2R;
+      return [Math.cos(a) * Math.sin(o), Math.sin(a), Math.cos(a) * Math.cos(o)];
+    };
+    const AFRICA = ll(4, 20);
+    const CONTS = [
+      { v: ll(42, -98), name: 'N. AMERICA' },
+      { v: ll(-14, -58), name: 'S. AMERICA' },
+      { v: ll(50, 12), name: 'EUROPE' },
+      { v: ll(36, 102), name: 'ASIA' },
+      { v: ll(-25, 134), name: 'OCEANIA' },
+      { v: ll(22, 78), name: 'INDIA' }
+    ];
+
+    const rot = (v) => {
+      const cyy = Math.cos(rotY), syy = Math.sin(rotY);
+      const x1 = v[0] * cyy + v[2] * syy;
+      const z1 = -v[0] * syy + v[2] * cyy;
+      const y1 = v[1];
+      const ct = Math.cos(tilt), st = Math.sin(tilt);
+      const y2 = y1 * ct - z1 * st;
+      const z2 = y1 * st + z1 * ct;
+      return [x1, y2, z2];
+    };
+    const slerp = (a, b, t) => {
+      let d = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+      d = Math.max(-1, Math.min(1, d));
+      const om = Math.acos(d);
+      if (om < 1e-4) return a.slice();
+      const s = Math.sin(om);
+      const k0 = Math.sin((1 - t) * om) / s, k1 = Math.sin(t * om) / s;
+      return [a[0] * k0 + b[0] * k1, a[1] * k0 + b[1] * k1, a[2] * k0 + b[2] * k1];
+    };
+
+    const particles = [];
+    const spawn = () => {
+      const out = Math.random() < 0.5;
+      const c = CONTS[(Math.random() * CONTS.length) | 0].v;
+      particles.push({
+        a: out ? AFRICA : c, b: out ? c : AFRICA, t: 0, sp: rand(0.006, 0.0105), out,
+        col: out ? null : WASTE[(Math.random() * WASTE.length) | 0]
+      });
+    };
+
+    const resize = () => {
+      const cv = ref.current; if (!cv) return;
+      const r = cv.getBoundingClientRect(); if (r.width === 0) return;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      cv.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+      const mob = W < 860;
+      cx = mob ? W * 0.5 : W * 0.66;
+      cy = H * (mob ? 0.5 : 0.52);
+      R = Math.min(W, H) * (mob ? 0.34 : 0.42);
+      globeAlpha = mob ? 0.5 : 1;
+    };
+    this.onResize = resize;
+
+    const frame = () => {
+      this.raf = requestAnimationFrame(frame);
+      try {
+      const cv = ref.current; if (!cv) return;
+      if (W === 0 || cv.width !== Math.round(W * dpr)) { resize(); if (W === 0) return; }
+      const ctx = cv.getContext('2d');
+      const reduce = !!this.props.reduceMotion;
+      const density = this.props.particleDensity != null ? this.props.particleDensity : 1;
+      ctx.clearRect(0, 0, W, H);
+      rotY += (reduce ? 0.0017 : 0.0036);
+
+      const glow = ctx.createRadialGradient(cx, cy, R * 0.2, cx, cy, R * 1.18);
+      glow.addColorStop(0, 'rgba(193,90,43,' + (0.15 * globeAlpha) + ')');
+      glow.addColorStop(0.62, 'rgba(193,90,43,' + (0.045 * globeAlpha) + ')');
+      glow.addColorStop(1, 'rgba(193,90,43,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(cx, cy, R * 1.18, 0, 7); ctx.fill();
+      ctx.fillStyle = 'rgba(14,12,9,' + (0.55 * globeAlpha) + ')';
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(193,90,43,' + (0.5 * globeAlpha) + ')';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+
+      for (let i = 0; i < DOTS.length; i++) {
+        const p = rot(DOTS[i]);
+        const sx = cx + p[0] * R, sy = cy - p[1] * R;
+        if (p[2] > 0) {
+          ctx.fillStyle = 'rgba(224,216,202,' + ((0.16 + 0.5 * p[2]) * globeAlpha) + ')';
+          ctx.beginPath(); ctx.arc(sx, sy, 1.25, 0, 7); ctx.fill();
+        } else {
+          ctx.fillStyle = 'rgba(160,150,132,' + (0.07 * globeAlpha) + ')';
+          ctx.beginPath(); ctx.arc(sx, sy, 0.85, 0, 7); ctx.fill();
+        }
+      }
+
+      for (const c of CONTS) {
+        const p = rot(c.v);
+        const sx = cx + p[0] * R, sy = cy - p[1] * R;
+        const front = p[2] > 0;
+        ctx.fillStyle = front ? 'rgba(236,228,214,0.85)' : 'rgba(236,228,214,0.16)';
+        ctx.beginPath(); ctx.arc(sx, sy, front ? 2.4 : 1.6, 0, 7); ctx.fill();
+        if (p[2] > 0.22 && W >= 700) {
+          ctx.font = '600 9px "Chakra Petch", sans-serif';
+          try { ctx.letterSpacing = '1.5px'; } catch (e) {}
+          ctx.textAlign = 'center';
+          ctx.fillStyle = 'rgba(207,200,186,' + Math.min(0.9, 0.32 + 1.3 * (p[2] - 0.22)) + ')';
+          ctx.fillText(c.name, sx, sy - 8);
+          try { ctx.letterSpacing = '0px'; } catch (e) {}
+        }
+      }
+
+      const cap = Math.max(0, Math.round((W < 700 ? 26 : 54) * density * (reduce ? 0.4 : 1)));
+      if (particles.length < cap && Math.random() < (reduce ? 0.3 : 0.66)) spawn();
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const pt = particles[i];
+        pt.t += pt.sp * (reduce ? 0.7 : 1);
+        const et = ease(Math.min(pt.t, 1));
+        const bs = slerp(pt.a, pt.b, et);
+        const lift = 1 + 0.26 * Math.sin(Math.PI * et);
+        const v = rot([bs[0] * lift, bs[1] * lift, bs[2] * lift]);
+        const sx = cx + v[0] * R, sy = cy - v[1] * R;
+        const vis = v[2] > 0 ? 1 : 0.14;
+        if (pt.out) {
+          ctx.fillStyle = 'rgba(208,107,52,' + (0.92 * vis) + ')';
+          if (v[2] > 0) { ctx.shadowColor = 'rgba(193,90,43,0.8)'; ctx.shadowBlur = 6; }
+          ctx.beginPath(); ctx.arc(sx, sy, 2.1, 0, 7); ctx.fill();
+          ctx.shadowBlur = 0;
+        } else {
+          ctx.fillStyle = pt.col + (0.7 * vis) + ')';
+          ctx.beginPath(); ctx.arc(sx, sy, 1.8, 0, 7); ctx.fill();
+        }
+        if (pt.t >= 1) {
+          if (!pt.out) pulse = 1;
+          particles.splice(i, 1);
+        }
+      }
+
+      const ap = rot(AFRICA);
+      const asx = cx + ap[0] * R, asy = cy - ap[1] * R;
+      pulse *= 0.94;
+      if (ap[2] > -0.2) {
+        const fr = Math.max(0, ap[2]);
+        ctx.strokeStyle = 'rgba(193,90,43,' + (0.35 * (0.4 + fr) + 0.5 * pulse) + ')';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(asx, asy, 9 + pulse * 11, 0, 7); ctx.stroke();
+        ctx.fillStyle = 'rgba(193,90,43,' + (0.5 + 0.5 * fr) + ')';
+        ctx.beginPath(); ctx.arc(asx, asy, 4.6, 0, 7); ctx.fill();
+        if (ap[2] > 0.12) {
+          ctx.font = '600 11px "Chakra Petch", sans-serif';
+          try { ctx.letterSpacing = '2px'; } catch (e) {}
+          ctx.textAlign = 'center';
+          ctx.fillStyle = 'rgba(217,138,90,0.95)';
+          ctx.fillText('AFRICA', asx, asy + 22);
+          try { ctx.letterSpacing = '0px'; } catch (e) {}
+        }
+      }
+      } catch (e) { if (!this._logged) { this._logged = true; console.error('GLOBE frame error:', e && e.message, e && e.stack); } }
+    };
+    resize();
+    frame();
+  }
+
+  setField(k, v) {
+    this.setState(s => ({ form: Object.assign({}, s.form, { [k]: v }) }));
+  }
+
+  renderVals() {
+    const sections = [
+      ['do', 'What we do'], ['about', 'About'], ['team', 'Team'], ['contact', 'Contact']
+    ];
+    const cur = this.state.active;
+    const navItems = sections.map(([id, label]) => ({
+      label,
+      href: '#' + id,
+      onClick: () => this.setState({ menuOpen: false }),
+      color: cur === id ? '#ffffff' : '#9c968a',
+      bd: cur === id ? '2px solid #C15A2B' : '2px solid transparent'
+    }));
+    const team = [
+      { name: 'Gordon Fay', role: 'Co-Founder & CEO', photo: 'assets/ceo.jpg', pos: '58% 40%', tf: 'scale(1.3)', origin: '58% 46%', linkedin: 'https://www.linkedin.com/in/gordonfay/', color: '#C15A2B' },
+      { name: 'Maximilian Mayr', role: 'Co-Founder & CTO', photo: 'assets/cto.jpg', pos: '50% 24%', tf: 'none', origin: 'center', linkedin: 'https://www.linkedin.com/in/maximilian-a-mayr/', color: '#2F6E64' }
+    ];
+    const mobile = this.state.winW < 900;
+    const f = this.state.form;
+    return {
+      navItems,
+      team,
+      showDesktopNav: !mobile,
+      showBurger: mobile,
+      burgerIcon: this.state.menuOpen ? '✕' : '☰',
+      mobileMenuOpen: mobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      canvasRef: this.canvasRef,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      fName: f.name, fEmail: f.email, fRole: f.role, fCompany: f.company, fMessage: f.message,
+      onName: e => this.setField('name', e.target.value),
+      onEmail: e => this.setField('email', e.target.value),
+      onRole: e => this.setField('role', e.target.value),
+      onCompany: e => this.setField('company', e.target.value),
+      onMessage: e => this.setField('message', e.target.value),
+      onSubmit: e => {
+        e.preventDefault();
+        const g = this.state.form;
+        const subject = 'KicksCTRL inquiry' + (g.role ? ' — ' + g.role : '');
+        const body = [
+          (g.message || '').trim(),
+          '',
+          '—',
+          'Name: ' + (g.name || ''),
+          'Email: ' + (g.email || ''),
+          g.role ? 'Reaching out as: ' + g.role : ''
+        ].filter(function (l, i) { return l !== '' || i === 1; }).join('\n');
+        const href = 'mailto:hello@kicksctrl.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        try { window.location.href = href; } catch (err) {}
+        this.setState({ submitted: true });
+      },
+      resetForm: () => this.setState({ submitted: false, form: { name: '', email: '', role: '', company: '', message: '' } })
+    };
+  }
+}
+</script>
+</body>
+</html>

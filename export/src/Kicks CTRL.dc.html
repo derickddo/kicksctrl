@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;scroll-behavior:smooth;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:#FAFAF8;color:#0A0A0A;-webkit-font-smoothing:antialiased;}
+    button{font-family:inherit;cursor:pointer;}
+    input,textarea,select{font-family:inherit;}
+    a{color:inherit;text-decoration:none;}
+    ::selection{background:#1A7A1A;color:#fff;}
+    ::placeholder{color:#9aa09a;}
+    section[id]{scroll-margin-top:72px;}
+  </style>
+</helmet>
+<div style="min-height:100vh;">
+
+  <header style="position:sticky;top:0;z-index:60;background:#0A0A0A;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+      <a href="#top" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer;">
+        <span style="width:12px;height:12px;background:#1A7A1A;display:block;"></span>
+        <span style="font-family:'Bebas Neue';font-size:25px;letter-spacing:2px;color:#fff;line-height:1;white-space:nowrap;">KICKSctrl</span>
+      </a>
+      <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:2px;">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
+            <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="padding:8px 11px;font-size:13px;font-weight:500;letter-spacing:0.4px;color:{{ item.color }};border-bottom:{{ item.bd }};cursor:pointer;" style-hover="color:#fff;">{{ item.label }}</a>
+          </sc-for>
+        </nav>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+          <a href="#contact" onClick="{{ closeMenu }}" style="background:#1A7A1A;color:#fff;padding:11px 18px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:inline-block;" style-hover="background:#22982A;">Investor / Partner</a>
+        </sc-if>
+        <sc-if value="{{ showBurger }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" style="background:none;border:1px solid rgba(255,255,255,0.18);color:#fff;width:40px;height:40px;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;">{{ burgerIcon }}</button>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.08);padding:8px 28px 22px;display:flex;flex-direction:column;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
+          <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="border-bottom:1px solid rgba(255,255,255,0.06);text-align:left;padding:15px 0;font-size:15px;font-weight:500;color:{{ item.color }};display:block;cursor:pointer;">{{ item.label }}</a>
+        </sc-for>
+        <a href="#contact" onClick="{{ closeMenu }}" style="margin-top:18px;background:#1A7A1A;color:#fff;padding:15px;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;display:block;text-align:center;cursor:pointer;">Investor / Partner Inquiry</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section id="top" style="position:relative;background:#0A0A0A;color:#fff;min-height:90vh;display:flex;align-items:center;overflow:hidden;">
+      <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 48%, rgba(26,122,26,0.12), transparent 62%);pointer-events:none;"></div>
+      <div style="position:relative;max-width:1240px;margin:0 auto;padding:0 28px;width:100%;pointer-events:none;">
+        <div style="max-width:780px;">
+          <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#3DBF44;margin-bottom:24px;">KICKSCTRL &nbsp;//&nbsp; MATERIAL RECOVERY</div>
+          <h1 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(50px,8vw,120px);line-height:0.9;letter-spacing:1px;margin:0 0 26px;">Recovery infrastructure for the world's discarded footwear</h1>
+          <p style="font-size:clamp(16px,2vw,21px);line-height:1.5;color:#c2c7c2;max-width:560px;margin:0 0 36px;">We collect, sort, and recycle post-consumer footwear into clean material streams.</p>
+          <a href="#contact" style="pointer-events:auto;display:inline-block;background:#1A7A1A;color:#fff;padding:17px 30px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;" style-hover="background:#22982A;">Investor / Partner Inquiry &nbsp;→</a>
+          <div style="margin-top:48px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b716b;">
+            <span>Global sources</span><span style="color:#1A7A1A;">→</span><span>Sorting · Africa</span><span style="color:#1A7A1A;">→</span><span style="color:#3DBF44;">Rubber · Foam · Textile</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section style="background:#0A0A0A;color:#fff;border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
+        <div style="padding:54px 30px;border-left:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Bebas Neue';font-size:clamp(50px,6vw,82px);line-height:0.85;">24B</div>
+          <div style="margin-top:12px;font-size:13px;color:#8a908a;line-height:1.45;max-width:210px;">Pairs of footwear consumed globally each year</div>
+        </div>
+        <div style="padding:54px 30px;border-left:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Bebas Neue';font-size:clamp(50px,6vw,82px);line-height:0.85;color:#3DBF44;">&lt;5%</div>
+          <div style="margin-top:12px;font-size:13px;color:#8a908a;line-height:1.45;max-width:210px;">Formally recycled — the rest is landfilled or burned</div>
+        </div>
+        <div style="padding:54px 30px;border-left:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Bebas Neue';font-size:clamp(50px,6vw,82px);line-height:0.85;">92M</div>
+          <div style="margin-top:12px;font-size:13px;color:#8a908a;line-height:1.45;max-width:210px;">Tonnes of textile waste generated annually</div>
+        </div>
+        <div style="padding:54px 30px;border-left:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Bebas Neue';font-size:clamp(50px,6vw,82px);line-height:0.85;">JUL 2026</div>
+          <div style="margin-top:12px;font-size:13px;color:#8a908a;line-height:1.45;max-width:210px;">EU ban on destruction of unsold goods takes effect</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROBLEM ===== -->
+    <section id="problem" style="background:#FAFAF8;padding:clamp(80px,10vw,132px) 0;border-top:1px solid #E4E4E0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#1A7A1A;margin-bottom:18px;">The Problem</div>
+        <h2 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(38px,6vw,92px);line-height:0.9;letter-spacing:1px;margin:0 0 22px;max-width:900px;">The footwear industry has no end-of-life system</h2>
+        <p style="font-size:clamp(16px,2vw,20px);line-height:1.55;color:#55594f;max-width:620px;margin:0 0 60px;">Production is industrial. Disposal is not. The gap between the two is a structural failure measured in billions of pairs.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:48px;margin-bottom:72px;">
+          <div>
+            <div style="font-family:'Bebas Neue';font-size:clamp(64px,8vw,108px);line-height:0.82;">24B</div>
+            <div style="font-size:15px;color:#55594f;margin-top:14px;line-height:1.5;">pairs consumed annually — and rising with population and fast fashion.</div>
+          </div>
+          <div>
+            <div style="font-family:'Bebas Neue';font-size:clamp(64px,8vw,108px);line-height:0.82;">92M</div>
+            <div style="font-size:15px;color:#55594f;margin-top:14px;line-height:1.5;">tonnes of textile waste generated each year, footwear among the hardest fractions.</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#1A7A1A;margin-bottom:34px;">What actually gets recovered</div>
+        <div style="max-width:840px;margin-bottom:80px;">
+          <div style="margin-bottom:38px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">
+              <span style="font-size:15px;font-weight:600;">Formally recycled, globally</span>
+              <span style="font-family:'Bebas Neue';font-size:34px;color:#1A7A1A;line-height:1;">&lt;5%</span>
+            </div>
+            <div style="height:12px;background:#E4E4E0;position:relative;overflow:hidden;">
+              <div style="position:absolute;left:0;top:0;bottom:0;width:5%;background:#1A7A1A;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">
+              <span style="font-size:15px;font-weight:600;">Formal recycling infrastructure in Africa</span>
+              <span style="font-family:'Bebas Neue';font-size:34px;color:#1A7A1A;line-height:1;">&lt;1%</span>
+            </div>
+            <div style="height:12px;background:#E4E4E0;position:relative;overflow:hidden;">
+              <div style="position:absolute;left:0;top:0;bottom:0;width:1%;background:#1A7A1A;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:start;">
+          <div>
+            <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(28px,3.5vw,44px);letter-spacing:1px;margin:0 0 16px;">Why footwear resists recycling</h3>
+            <p style="font-size:16px;line-height:1.65;color:#55594f;margin:0;">A single shoe combines rubber, EVA foam, textiles, plastics, and adhesives — bonded together by design. Standard single-stream recycling can't separate them, so even collected shoes are downcycled or discarded. Footwear needs a dedicated separation process, which until now has not existed at scale.</p>
+          </div>
+          <div style="border-left:2px solid #1A7A1A;padding-left:28px;">
+            <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#1A7A1A;margin-bottom:14px;">Regulatory pressure</div>
+            <div style="font-family:'Bebas Neue';font-size:clamp(36px,4vw,60px);line-height:0.9;margin-bottom:14px;">July 2026</div>
+            <p style="font-size:16px;line-height:1.65;color:#55594f;margin:0;">The EU's ban on the destruction of unsold goods takes effect, extending EPR obligations to footwear producers. Brands will need audited recovery routes — not incineration — for end-of-life and unsold stock.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOLUTION ===== -->
+    <section id="solution" style="background:#0A0A0A;color:#fff;padding:clamp(80px,10vw,132px) 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#3DBF44;margin-bottom:18px;">The Solution</div>
+        <h2 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(38px,6vw,92px);line-height:0.9;letter-spacing:1px;margin:0 0 22px;max-width:900px;">A full-stack footwear recovery system</h2>
+        <p style="font-size:clamp(16px,2vw,20px);line-height:1.55;color:#c2c7c2;max-width:620px;margin:0 0 60px;">One continuous chain from discarded shoe to graded raw material — owned end to end, instrumented throughout.</p>
+
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#8a908a;margin-bottom:30px;">The process</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);margin-bottom:80px;">
+          <div style="background:#0A0A0A;padding:36px 30px;"><div style="font-family:'Bebas Neue';font-size:40px;color:#1A7A1A;line-height:1;">01</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:26px;letter-spacing:1px;margin:14px 0 10px;">Aggregate</h3><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Consolidate volume from take-back, retail, and municipal channels into intake hubs.</p></div>
+          <div style="background:#0A0A0A;padding:36px 30px;"><div style="font-family:'Bebas Neue';font-size:40px;color:#1A7A1A;line-height:1;">02</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:26px;letter-spacing:1px;margin:14px 0 10px;">Disassemble</h3><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Separate bonded components into clean single-material fractions.</p></div>
+          <div style="background:#0A0A0A;padding:36px 30px;"><div style="font-family:'Bebas Neue';font-size:40px;color:#1A7A1A;line-height:1;">03</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:26px;letter-spacing:1px;margin:14px 0 10px;">Process</h3><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Clean, shred, and grade each fraction to industrial feedstock specification.</p></div>
+          <div style="background:#0A0A0A;padding:36px 30px;"><div style="font-family:'Bebas Neue';font-size:40px;color:#1A7A1A;line-height:1;">04</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:26px;letter-spacing:1px;margin:14px 0 10px;">Offtake</h3><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Sell graded streams into manufacturing under recurring supply agreements.</p></div>
+        </div>
+
+        <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(28px,4vw,52px);letter-spacing:1px;margin:0 0 32px;">Three clean output streams</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+          <div style="background:#141513;border:1px solid rgba(255,255,255,0.08);padding:38px 32px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><span style="width:10px;height:10px;background:#1A7A1A;display:block;"></span><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;">Stream 01</span></div>
+            <h4 style="font-family:'Bebas Neue';font-weight:400;font-size:34px;letter-spacing:1px;margin:0 0 12px;">Rubber</h4>
+            <p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Crumb and granulate for surfacing, molded goods, and new outsole compound.</p>
+          </div>
+          <div style="background:#141513;border:1px solid rgba(255,255,255,0.08);padding:38px 32px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><span style="width:10px;height:10px;background:#1A7A1A;display:block;"></span><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;">Stream 02</span></div>
+            <h4 style="font-family:'Bebas Neue';font-weight:400;font-size:34px;letter-spacing:1px;margin:0 0 12px;">Foam</h4>
+            <p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Reclaimed EVA and PU for cushioning, padding, and rebonded foam products.</p>
+          </div>
+          <div style="background:#141513;border:1px solid rgba(255,255,255,0.08);padding:38px 32px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><span style="width:10px;height:10px;background:#1A7A1A;display:block;"></span><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;">Stream 03</span></div>
+            <h4 style="font-family:'Bebas Neue';font-weight:400;font-size:34px;letter-spacing:1px;margin:0 0 12px;">Textile</h4>
+            <p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Fiber feedstock for insulation, nonwovens, and reprocessed textile applications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IMPACT ===== -->
+    <section id="impact" style="background:#FAFAF8;padding:clamp(80px,10vw,132px) 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#1A7A1A;margin-bottom:18px;">Impact</div>
+        <h2 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(38px,6vw,92px);line-height:0.9;letter-spacing:1px;margin:0 0 22px;max-width:900px;">Measured in tonnes, not gestures</h2>
+        <p style="font-size:clamp(16px,2vw,20px);line-height:1.55;color:#55594f;max-width:620px;margin:0 0 56px;">Impact is an output of throughput. Every facility reports the same compliance-grade metrics, so results compound predictably as capacity scales.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:#E4E4E0;border:1px solid #E4E4E0;margin-bottom:80px;">
+          <div style="background:#FAFAF8;padding:40px 32px;"><div style="font-family:'Bebas Neue';font-size:34px;letter-spacing:1px;color:#1A7A1A;">Tonnes diverted</div><p style="font-size:14px;line-height:1.6;color:#55594f;margin:12px 0 0;">Mass of footwear kept out of landfill and incineration.</p></div>
+          <div style="background:#FAFAF8;padding:40px 32px;"><div style="font-family:'Bebas Neue';font-size:34px;letter-spacing:1px;color:#1A7A1A;">Recovery rate</div><p style="font-size:14px;line-height:1.6;color:#55594f;margin:12px 0 0;">Share of intake mass converted into sellable material streams.</p></div>
+          <div style="background:#FAFAF8;padding:40px 32px;"><div style="font-family:'Bebas Neue';font-size:34px;letter-spacing:1px;color:#1A7A1A;">CO₂e avoided</div><p style="font-size:14px;line-height:1.6;color:#55594f;margin:12px 0 0;">Emissions displaced versus virgin material and disposal.</p></div>
+          <div style="background:#FAFAF8;padding:40px 32px;"><div style="font-family:'Bebas Neue';font-size:34px;letter-spacing:1px;color:#1A7A1A;">Chain of custody</div><p style="font-size:14px;line-height:1.6;color:#55594f;margin:12px 0 0;">Tracked intake-to-offtake records for EPR reporting.</p></div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:40px;">
+          <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(28px,4vw,52px);letter-spacing:1px;margin:0;max-width:560px;">Capacity scales in standardized increments</h3>
+          <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9aa09a;">Indicative ramp — design target</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:end;height:240px;">
+          <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;"><div style="background:#C4E2C4;height:22%;"></div><div style="font-size:12px;color:#8a908a;margin-top:12px;letter-spacing:1px;">PHASE 1</div></div>
+          <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;"><div style="background:#7AC57A;height:45%;"></div><div style="font-size:12px;color:#8a908a;margin-top:12px;letter-spacing:1px;">PHASE 2</div></div>
+          <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;"><div style="background:#2E9A2E;height:72%;"></div><div style="font-size:12px;color:#8a908a;margin-top:12px;letter-spacing:1px;">PHASE 3</div></div>
+          <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;"><div style="background:#1A7A1A;height:100%;"></div><div style="font-size:12px;color:#8a908a;margin-top:12px;letter-spacing:1px;">PHASE 4</div></div>
+        </div>
+        <p style="font-size:14px;line-height:1.6;color:#55594f;max-width:640px;margin:34px 0 0;">Each facility is a repeatable unit with a known cost, footprint, and output profile. Adding capacity means replicating the unit — recovery volume, material supply, and avoided emissions grow with it.</p>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" style="background:#0A0A0A;color:#fff;padding:clamp(80px,10vw,132px) 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#3DBF44;margin-bottom:18px;">About</div>
+        <h2 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(38px,6vw,92px);line-height:0.9;letter-spacing:1px;margin:0 0 22px;max-width:960px;">Building the missing layer of the footwear supply chain</h2>
+        <p style="font-size:clamp(16px,2vw,20px);line-height:1.55;color:#c2c7c2;max-width:640px;margin:0 0 60px;">Footwear is one of the most disposed-of consumer products on earth and one of the least recoverable. We exist to make it recoverable at industrial scale.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;margin-bottom:72px;">
+          <div>
+            <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(26px,3.5vw,40px);letter-spacing:1px;margin:0 0 16px;">The thesis</h3>
+            <p style="font-size:16px;line-height:1.65;color:#b9beb9;margin:0 0 16px;">Every recovery chain — paper, metal, glass, PET — was built by infrastructure, not by goodwill. Footwear has no equivalent. The shoe is a bonded composite of rubber, foam, textile, and plastics, which makes it nearly impossible to recycle through existing single-stream systems.</p>
+            <p style="font-size:16px;line-height:1.65;color:#b9beb9;margin:0;">Kicks CTRL builds the dedicated layer that separates those materials and routes each into a clean, sellable stream — turning a waste liability into a supply of secondary raw material.</p>
+          </div>
+          <div>
+            <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(26px,3.5vw,40px);letter-spacing:1px;margin:0 0 16px;">How we operate</h3>
+            <p style="font-size:16px;line-height:1.65;color:#b9beb9;margin:0 0 16px;">We run a vertically integrated chain: aggregated collection, regional sorting facilities, and material processing with offtake agreements to industrial buyers. Volume is aggregated from brands meeting EPR obligations, retailer take-back, and municipal waste streams.</p>
+            <p style="font-size:16px;line-height:1.65;color:#b9beb9;margin:0;">Operations are anchored in Africa, where formal recycling infrastructure is below 1% and where global footwear waste increasingly flows — positioning recovery capacity at the point of greatest accumulation.</p>
+          </div>
+        </div>
+
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#3DBF44;margin-bottom:30px;">Operating principles</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);">
+          <div style="background:#0A0A0A;padding:34px;"><h4 style="font-family:'Bebas Neue';font-weight:400;font-size:24px;letter-spacing:1px;margin:0 0 10px;">Infrastructure first</h4><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">We build physical capacity, not campaigns. Throughput is the product.</p></div>
+          <div style="background:#0A0A0A;padding:34px;"><h4 style="font-family:'Bebas Neue';font-weight:400;font-size:24px;letter-spacing:1px;margin:0 0 10px;">Material purity</h4><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Output is graded to spec so it competes with virgin feedstock, not just diverts it.</p></div>
+          <div style="background:#0A0A0A;padding:34px;"><h4 style="font-family:'Bebas Neue';font-weight:400;font-size:24px;letter-spacing:1px;margin:0 0 10px;">Auditable chain</h4><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Every tonne is tracked from intake to offtake for compliance-grade reporting.</p></div>
+          <div style="background:#0A0A0A;padding:34px;"><h4 style="font-family:'Bebas Neue';font-weight:400;font-size:24px;letter-spacing:1px;margin:0 0 10px;">Modular scale</h4><p style="font-size:14px;line-height:1.6;color:#b9beb9;margin:0;">Facilities replicate as standardized units, so capacity grows in predictable increments.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PARTNERS ===== -->
+    <section id="partners" style="background:#FAFAF8;padding:clamp(80px,10vw,132px) 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#1A7A1A;margin-bottom:18px;">Partners</div>
+        <h2 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(38px,6vw,92px);line-height:0.9;letter-spacing:1px;margin:0 0 22px;max-width:900px;">Infrastructure runs on partnerships</h2>
+        <p style="font-size:clamp(16px,2vw,20px);line-height:1.55;color:#55594f;max-width:620px;margin:0 0 56px;">A recovery chain only works when supply, processing, and demand are connected. We sit at that intersection and convene it.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:#E4E4E0;border:1px solid #E4E4E0;margin-bottom:64px;">
+          <div style="background:#FAFAF8;padding:40px 34px;"><div style="font-family:'Bebas Neue';font-size:46px;color:#1A7A1A;line-height:1;">A</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:28px;letter-spacing:1px;margin:16px 0 10px;">Brands &amp; retailers</h3><p style="font-size:15px;line-height:1.6;color:#55594f;margin:0;">Audited take-back and recovery routes to meet EPR obligations and remove destruction from the supply chain.</p></div>
+          <div style="background:#FAFAF8;padding:40px 34px;"><div style="font-family:'Bebas Neue';font-size:46px;color:#1A7A1A;line-height:1;">B</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:28px;letter-spacing:1px;margin:16px 0 10px;">Municipalities</h3><p style="font-size:15px;line-height:1.6;color:#55594f;margin:0;">Diversion of footwear from waste streams into a tracked, reportable recovery channel.</p></div>
+          <div style="background:#FAFAF8;padding:40px 34px;"><div style="font-family:'Bebas Neue';font-size:46px;color:#1A7A1A;line-height:1;">C</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:28px;letter-spacing:1px;margin:16px 0 10px;">Material buyers</h3><p style="font-size:15px;line-height:1.6;color:#55594f;margin:0;">Recurring supply of graded rubber, foam, and textile feedstock under offtake agreements.</p></div>
+          <div style="background:#FAFAF8;padding:40px 34px;"><div style="font-family:'Bebas Neue';font-size:46px;color:#1A7A1A;line-height:1;">D</div><h3 style="font-family:'Bebas Neue';font-weight:400;font-size:28px;letter-spacing:1px;margin:16px 0 10px;">Capital partners</h3><p style="font-size:15px;line-height:1.6;color:#55594f;margin:0;">Investors funding the build-out of repeatable, asset-backed recovery facilities.</p></div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;background:#0A0A0A;color:#fff;padding:clamp(40px,6vw,64px);">
+          <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(28px,4vw,56px);line-height:0.95;letter-spacing:1px;margin:0;max-width:660px;">Bring volume, capital, or demand. We connect the chain.</h3>
+          <a href="#contact" style="display:inline-block;background:#1A7A1A;color:#fff;padding:17px 30px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;flex-shrink:0;cursor:pointer;" style-hover="background:#22982A;">Partner inquiry &nbsp;→</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT / INVEST ===== -->
+    <section id="contact" style="background:#0A0A0A;color:#fff;border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1240px;margin:0 auto;padding:clamp(80px,10vw,132px) 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:start;">
+        <div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#3DBF44;margin-bottom:18px;">Investor / Partner Inquiry</div>
+          <h2 style="font-family:'Bebas Neue';font-weight:400;font-size:clamp(40px,6vw,92px);line-height:0.9;letter-spacing:1px;margin:0 0 24px;">Let's build the recovery layer</h2>
+          <p style="font-size:17px;line-height:1.6;color:#b9beb9;max-width:440px;margin:0 0 40px;">Tell us where you fit — capital, supply, or material demand. We respond to qualified inquiries within five business days.</p>
+          <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;display:flex;flex-direction:column;gap:18px;">
+            <div><div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b716b;margin-bottom:6px;">General</div><div style="font-size:16px;">hello@kicksctrl.com</div></div>
+            <div><div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b716b;margin-bottom:6px;">Investment</div><div style="font-size:16px;">invest@kicksctrl.com</div></div>
+          </div>
+        </div>
+
+        <div style="background:#111210;border:1px solid rgba(255,255,255,0.1);padding:clamp(28px,4vw,44px);">
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:40px 8px;">
+              <div style="width:48px;height:48px;background:#1A7A1A;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:24px;">✓</div>
+              <h3 style="font-family:'Bebas Neue';font-weight:400;font-size:40px;letter-spacing:1px;margin:0 0 12px;">Inquiry received</h3>
+              <p style="font-size:15px;color:#b9beb9;line-height:1.6;margin:0 0 28px;">Thank you — we'll be in touch within five business days.</p>
+              <button onClick="{{ resetForm }}" style="background:none;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:12px 22px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Submit another</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onSubmit }}">
+              <div style="display:flex;flex-direction:column;gap:20px;">
+                <div>
+                  <label style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;margin-bottom:9px;">Name</label>
+                  <input value="{{ fName }}" onChange="{{ onName }}" placeholder="Full name" style="width:100%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.14);color:#fff;padding:13px 14px;font-size:15px;outline:none;" style-focus="border-color:#1A7A1A;">
+                </div>
+                <div>
+                  <label style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;margin-bottom:9px;">Email</label>
+                  <input value="{{ fEmail }}" onChange="{{ onEmail }}" type="email" placeholder="you@company.com" style="width:100%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.14);color:#fff;padding:13px 14px;font-size:15px;outline:none;" style-focus="border-color:#1A7A1A;">
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;">
+                  <div>
+                    <label style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;margin-bottom:9px;">Role</label>
+                    <select value="{{ fRole }}" onChange="{{ onRole }}" style="width:100%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.14);color:#fff;padding:13px 14px;font-size:15px;outline:none;" style-focus="border-color:#1A7A1A;">
+                      <option value="">Select role</option>
+                      <option value="Investor">Investor</option>
+                      <option value="Brand / Retailer">Brand / Retailer</option>
+                      <option value="Municipality">Municipality</option>
+                      <option value="Material buyer">Material buyer</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;margin-bottom:9px;">Company</label>
+                    <input value="{{ fCompany }}" onChange="{{ onCompany }}" placeholder="Organization" style="width:100%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.14);color:#fff;padding:13px 14px;font-size:15px;outline:none;" style-focus="border-color:#1A7A1A;">
+                  </div>
+                </div>
+                <div>
+                  <label style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a908a;margin-bottom:9px;">Message</label>
+                  <textarea value="{{ fMessage }}" onChange="{{ onMessage }}" rows="4" placeholder="How would you like to engage?" style="width:100%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.14);color:#fff;padding:13px 14px;font-size:15px;outline:none;resize:vertical;font-family:inherit;"></textarea>
+                </div>
+                <button type="submit" style="background:#1A7A1A;color:#fff;border:none;padding:16px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;width:100%;" style-hover="background:#22982A;">Submit inquiry</button>
+              </div>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:#0A0A0A;color:#fff;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,6vw,72px) 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;">
+      <div style="grid-column:1 / -1;display:flex;align-items:center;gap:11px;margin-bottom:8px;">
+        <span style="width:12px;height:12px;background:#1A7A1A;display:block;"></span>
+        <span style="font-family:'Bebas Neue';font-size:25px;letter-spacing:2px;">KICKSCTRL</span>
+      </div>
+      <div style="max-width:300px;">
+        <p style="font-size:14px;line-height:1.6;color:#8a908a;margin:0;">End-of-life footwear recovery infrastructure. We collect, sort, and recycle post-consumer footwear into clean material streams.</p>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b716b;margin-bottom:16px;">Navigate</div>
+        <div style="display:flex;flex-direction:column;gap:11px;">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
+            <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="text-align:left;padding:0;font-size:14px;color:#b9beb9;cursor:pointer;" style-hover="color:#fff;">{{ item.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b716b;margin-bottom:16px;">Contact</div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14px;color:#b9beb9;">
+          <span>hello@kicksctrl.com</span>
+          <span>invest@kicksctrl.com</span>
+          <a href="#contact" style="text-align:left;padding:0;font-size:14px;color:#3DBF44;cursor:pointer;" style-hover="color:#fff;">Investor / Partner Inquiry →</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1240px;margin:0 auto;padding:22px 28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:12px;color:#6b716b;letter-spacing:0.5px;">
+        <span>© 2026 Kicks CTRL. All rights reserved.</span>
+        <span>Recovery infrastructure · Built for EPR 2026</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#0A0A0A"/>
+    <circle cx="50" cy="50" r="9" fill="none" stroke="#1A7A1A" stroke-width="2"/>
+    <circle cx="50" cy="50" r="2.5" fill="#1A7A1A"/>
+    <circle cx="24" cy="30" r="2" fill="#3DBF44"/>
+    <circle cx="22" cy="64" r="2" fill="#3DBF44"/>
+    <circle cx="34" cy="22" r="2" fill="#3DBF44"/>
+    <circle cx="80" cy="34" r="2.4" fill="#1A7A1A"/>
+    <circle cx="82" cy="50" r="2.4" fill="#1A7A1A"/>
+    <circle cx="80" cy="66" r="2.4" fill="#1A7A1A"/>
+    <line x1="24" y1="30" x2="50" y2="50" stroke="#1A7A1A" stroke-width="0.6" opacity="0.5"/>
+    <line x1="22" y1="64" x2="50" y2="50" stroke="#1A7A1A" stroke-width="0.6" opacity="0.5"/>
+    <line x1="34" y1="22" x2="50" y2="50" stroke="#1A7A1A" stroke-width="0.6" opacity="0.5"/>
+    <line x1="50" y1="50" x2="80" y2="34" stroke="#1A7A1A" stroke-width="0.6" opacity="0.7"/>
+    <line x1="50" y1="50" x2="82" y2="50" stroke="#1A7A1A" stroke-width="0.6" opacity="0.7"/>
+    <line x1="50" y1="50" x2="80" y2="66" stroke="#1A7A1A" stroke-width="0.6" opacity="0.7"/>
+  </svg>
+</template>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;particleDensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = {
+    winW: (typeof window !== 'undefined' ? window.innerWidth : 1200),
+    menuOpen: false,
+    active: 'top',
+    submitted: false,
+    form: { name: '', email: '', role: '', company: '', message: '' }
+  };
+
+  constructor(props) {
+    super(props);
+    this.canvasRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this._onWinResize = () => {
+      this.setState({ winW: window.innerWidth });
+      if (this.onResize) this.onResize();
+    };
+    window.addEventListener('resize', this._onWinResize);
+    this._onScroll = () => {
+      if (this._st) return;
+      this._st = requestAnimationFrame(() => { this._st = null; this.updateActive(); });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this.startAnim();
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this._onWinResize);
+    window.removeEventListener('scroll', this._onScroll);
+  }
+
+  updateActive() {
+    const ids = ['contact', 'partners', 'about', 'impact', 'solution', 'problem', 'top'];
+    const y = window.pageYOffset + 100;
+    let act = 'top';
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.pageYOffset;
+        if (top <= y) { act = id; break; }
+      }
+    }
+    if (act !== this.state.active) this.setState({ active: act });
+  }
+
+  scrollTo(id) {
+    this.setState({ menuOpen: false });
+    if (id === 'top') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 56;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
+
+  startAnim() {
+    const ref = this.canvasRef;
+    let W = 0, H = 0, dpr = 1;
+    let nodes = { sources: [], hub: [0, 0], outputs: [] };
+    const particles = [];
+    let pulse = 0;
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const ease = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    const bez = (a, b, c, t) => {
+      const u = 1 - t;
+      return [u * u * a[0] + 2 * u * t * c[0] + t * t * b[0], u * u * a[1] + 2 * u * t * c[1] + t * t * b[1]];
+    };
+    const computeNodes = () => {
+      nodes.sources = [[0.08, 0.30], [0.21, 0.13], [0.40, 0.10], [0.11, 0.66], [0.27, 0.86]].map(p => [p[0] * W, p[1] * H]);
+      nodes.hub = [0.5 * W, 0.5 * H];
+      nodes.outputs = [
+        { p: [0.90 * W, 0.27 * H], label: 'RUBBER' },
+        { p: [0.945 * W, 0.50 * H], label: 'FOAM' },
+        { p: [0.90 * W, 0.73 * H], label: 'TEXTILE' }
+      ];
+    };
+    const spawn = () => {
+      const s = nodes.sources[(Math.random() * nodes.sources.length) | 0];
+      const hub = nodes.hub;
+      const cx = (s[0] + hub[0]) / 2 + rand(-0.06, 0.06) * W;
+      const cy = (s[1] + hub[1]) / 2 + rand(-0.08, 0.02) * H;
+      particles.push({ stage: 0, t: 0, sp: rand(0.006, 0.011), from: [s[0], s[1]], to: [hub[0], hub[1]], c: [cx, cy], size: rand(1.4, 2.6) });
+    };
+    const resize = () => {
+      const cv = ref.current;
+      if (!cv) return;
+      const r = cv.getBoundingClientRect();
+      if (r.width === 0) return;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      const ctx = cv.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      computeNodes();
+    };
+    this.onResize = resize;
+    const frame = () => {
+      this.raf = requestAnimationFrame(frame);
+      const cv = ref.current;
+      if (!cv) return;
+      if (W === 0 || cv.width !== Math.round(W * dpr)) { resize(); if (W === 0) return; }
+      const reduce = !!this.props.reduceMotion;
+      const density = this.props.particleDensity != null ? this.props.particleDensity : 1;
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.lineWidth = 1;
+      for (const s of nodes.sources) {
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(nodes.hub[0], nodes.hub[1]); ctx.stroke();
+      }
+      for (const o of nodes.outputs) {
+        ctx.strokeStyle = 'rgba(26,122,26,0.20)';
+        ctx.beginPath(); ctx.moveTo(nodes.hub[0], nodes.hub[1]); ctx.lineTo(o.p[0], o.p[1]); ctx.stroke();
+      }
+
+      const base = W < 700 ? 32 : 68;
+      const cap = Math.max(0, Math.round(base * density * (reduce ? 0.35 : 1)));
+      const spawnChance = reduce ? 0.28 : 0.6;
+      if (particles.length < cap && Math.random() < spawnChance) spawn();
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.t += p.sp * (reduce ? 0.7 : 1);
+        const et = ease(Math.min(p.t, 1));
+        const pos = bez(p.from, p.to, p.c, et);
+        if (p.stage === 0) {
+          ctx.fillStyle = 'rgba(232,237,232,' + (0.22 + 0.5 * Math.sin(et * Math.PI)) + ')';
+          ctx.beginPath(); ctx.arc(pos[0], pos[1], p.size, 0, 7); ctx.fill();
+          if (p.t >= 1) {
+            pulse = 1;
+            const o = nodes.outputs[(Math.random() * nodes.outputs.length) | 0];
+            p.stage = 1; p.t = 0; p.sp = rand(0.007, 0.013);
+            p.from = [nodes.hub[0], nodes.hub[1]]; p.to = [o.p[0], o.p[1]];
+            p.c = [(p.from[0] + p.to[0]) / 2, (p.from[1] + p.to[1]) / 2 + rand(-0.05, 0.05) * H];
+          }
+        } else {
+          ctx.fillStyle = 'rgba(40,170,48,' + (0.9 * (1 - et * 0.35)) + ')';
+          ctx.shadowColor = 'rgba(26,122,26,0.8)'; ctx.shadowBlur = 6;
+          ctx.beginPath(); ctx.arc(pos[0], pos[1], p.size * 0.9, 0, 7); ctx.fill();
+          ctx.shadowBlur = 0;
+          if (p.t >= 1) particles.splice(i, 1);
+        }
+      }
+
+      pulse *= 0.94;
+      ctx.strokeStyle = 'rgba(26,122,26,' + (0.45 + 0.5 * pulse) + ')';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(nodes.hub[0], nodes.hub[1], 10 + pulse * 10, 0, 7); ctx.stroke();
+      ctx.fillStyle = '#1A7A1A';
+      ctx.beginPath(); ctx.arc(nodes.hub[0], nodes.hub[1], 4, 0, 7); ctx.fill();
+
+      ctx.font = '600 11px "DM Sans", sans-serif';
+      try { ctx.letterSpacing = '2px'; } catch (e) {}
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.textAlign = 'center';
+      ctx.fillText('AFRICA', nodes.hub[0], nodes.hub[1] + 30);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = 'rgba(61,191,68,0.95)';
+      for (const o of nodes.outputs) {
+        ctx.fillText(o.label, o.p[0] - 10, o.p[1] + 4);
+        ctx.beginPath(); ctx.fillStyle = '#1A7A1A'; ctx.arc(o.p[0], o.p[1], 3.2, 0, 7); ctx.fill();
+        ctx.fillStyle = 'rgba(61,191,68,0.95)';
+      }
+      try { ctx.letterSpacing = '0px'; } catch (e) {}
+      ctx.fillStyle = 'rgba(255,255,255,0.32)';
+      for (const s of nodes.sources) {
+        ctx.beginPath(); ctx.arc(s[0], s[1], 3, 0, 7); ctx.fill();
+      }
+    };
+    resize();
+    this.raf = requestAnimationFrame(frame);
+  }
+
+  setField(k, v) {
+    this.setState(s => ({ form: Object.assign({}, s.form, { [k]: v }) }));
+  }
+
+  renderVals() {
+    const sections = [
+      ['problem', 'Problem'], ['solution', 'Solution'], ['impact', 'Impact'],
+      ['about', 'About'], ['partners', 'Partners'], ['contact', 'Contact']
+    ];
+    const cur = this.state.active;
+    const navItems = sections.map(([id, label]) => ({
+      label,
+      href: '#' + id,
+      onClick: () => this.setState({ menuOpen: false }),
+      color: cur === id ? '#ffffff' : '#9ca39c',
+      bd: cur === id ? '2px solid #1A7A1A' : '2px solid transparent'
+    }));
+    const mobile = this.state.winW < 900;
+    const f = this.state.form;
+    return {
+      navItems,
+      showDesktopNav: !mobile,
+      showBurger: mobile,
+      burgerIcon: this.state.menuOpen ? '✕' : '☰',
+      mobileMenuOpen: mobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      canvasRef: this.canvasRef,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      fName: f.name, fEmail: f.email, fRole: f.role, fCompany: f.company, fMessage: f.message,
+      onName: e => this.setField('name', e.target.value),
+      onEmail: e => this.setField('email', e.target.value),
+      onRole: e => this.setField('role', e.target.value),
+      onCompany: e => this.setField('company', e.target.value),
+      onMessage: e => this.setField('message', e.target.value),
+      onSubmit: e => { e.preventDefault(); this.setState({ submitted: true }); },
+      resetForm: () => this.setState({ submitted: false, form: { name: '', email: '', role: '', company: '', message: '' } })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:#F4EFE4;color:#26241D;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none;}
+    ::selection{background:#C15A2B;color:#fff;}
+  </style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;">
+
+  <header style="position:sticky;top:0;z-index:60;background:#111111;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:900px;margin:0 auto;padding:0 28px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+      <a href="Kicks%20CTRL.dc.html" style="display:flex;align-items:center;cursor:pointer;">
+        <img src="assets/logo-dark.png" alt="Kicks CTRL" style="height:38px;width:auto;display:block;">
+      </a>
+      <a href="Kicks%20CTRL.dc.html" style="font-family:'Chakra Petch';font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#b9b3a5;cursor:pointer;" style-hover="color:#fff;">← Back to site</a>
+    </div>
+  </header>
+
+  <main style="flex:1;max-width:900px;width:100%;margin:0 auto;padding:clamp(56px,8vw,96px) 28px;">
+    <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#C15A2B;margin-bottom:18px;font-family:'Chakra Petch';">Legal notice</div>
+    <h1 style="font-family:'Chakra Petch';font-weight:700;font-size:clamp(40px,6vw,72px);line-height:1.02;letter-spacing:-0.5px;margin:0 0 40px;">Impressum</h1>
+
+    <div style="max-width:640px;display:flex;flex-direction:column;gap:36px;">
+      <div>
+        <h2 style="font-family:'Chakra Petch';font-weight:600;font-size:20px;margin:0 0 12px;">Information pursuant to § 5 TMG</h2>
+        <p style="font-size:16px;line-height:1.7;color:#4f4a3f;margin:0;"><strong style="color:#26241D;">Kicks CTRL</strong><br>Footwear recovery infrastructure<br><span style="color:#8a8272;">Registered address &amp; company registration details to follow.</span></p>
+      </div>
+
+      <div>
+        <h2 style="font-family:'Chakra Petch';font-weight:600;font-size:20px;margin:0 0 12px;">Responsible for content</h2>
+        <p style="font-size:16px;line-height:1.7;color:#4f4a3f;margin:0;">Gordon Fay — Co-Founder &amp; CEO<br>Maximilian Mayr — Co-Founder &amp; CTO</p>
+      </div>
+
+      <div>
+        <h2 style="font-family:'Chakra Petch';font-weight:600;font-size:20px;margin:0 0 12px;">Contact</h2>
+        <p style="font-size:16px;line-height:1.7;color:#4f4a3f;margin:0;">Email: <a href="mailto:hello@kicksctrl.com" style="color:#C15A2B;font-weight:600;" style-hover="text-decoration:underline;">hello@kicksctrl.com</a></p>
+      </div>
+
+      <div>
+        <h2 style="font-family:'Chakra Petch';font-weight:600;font-size:20px;margin:0 0 12px;">Venture</h2>
+        <p style="font-size:16px;line-height:1.7;color:#4f4a3f;margin:0;">Kicks CTRL is currently part of Carbon13 — Cohort 6. The Carbon13 name and logo, and the United Nations Sustainable Development Goal marks, belong to their respective owners and are used for reference only.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer style="background:#111111;color:#fff;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:900px;margin:0 auto;padding:22px 28px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:#7a7365;letter-spacing:0.5px;">
+      <span>© 2026 Kicks CTRL. All rights reserved.</span>
+      <div style="display:flex;gap:24px;">
+        <a href="Kicks%20CTRL.dc.html" style="color:#7a7365;" style-hover="color:#fff;">Home</a>
+        <a href="Disclaimer.dc.html" style="color:#7a7365;" style-hover="color:#fff;">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#111111"/>
+    <rect x="30" y="24" width="40" height="6" fill="#C15A2B"/>
+    <rect x="30" y="40" width="40" height="4" fill="#8a8272"/>
+    <rect x="30" y="50" width="40" height="4" fill="#8a8272"/>
+    <rect x="30" y="60" width="26" height="4" fill="#8a8272"/>
+  </svg>
+</template>
+</x-dc>
+</body>
+</html>
